@@ -18,23 +18,21 @@ import org.hding.HaoYangMao.API.util.HttpUtil;
 /**
  *
  */
-public abstract class Base {
+public class Base {
 	
 	//private Logger logger = LoggerFactory.getLogger(Base.class);
 	//火币现货配置信息
-	public static String HUOBI_ACCESS_KEY = "7e0eac78-d3cee8cc-2f8aa04a-7f645";
-	public static String HUOBI_SECRET_KEY = "ac478023-9e8ebb88-2c86b01f-5bb4c";
+	protected String HUOBI_ACCESS_KEY = "";
+	protected String HUOBI_SECRET_KEY = "";
 	public static String HUOBI_API_URL = "https://api.huobi.com/apiv3";
+	public static String HUOBI_BTC_MARKET_URL = "http://api.huobi.com/staticmarket/ticker_btc_json.js";
 	
 	//bitvc现货，期货共用accessKey,secretKey配置信息
 	public static String BITVC_ACCESS_KEY = "";
 	public static String BITVC_SECRET_KEY = "";
-    
-    
-	
+
 	
 	protected static int success = 200;
-	
 	
 	public String post(Map<String, Object> map,String url) throws Exception {
 		return HttpUtil.post(url, map, new ResponseHandler<String>() {

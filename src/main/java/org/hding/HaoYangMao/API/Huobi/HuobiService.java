@@ -1,13 +1,55 @@
 package org.hding.HaoYangMao.API.Huobi;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.hding.HaoYangMao.API.util.JsonParser;
 
 /**
  * @author yanjg 2014年11月22日
  */
 public class HuobiService extends Base {
+    public HuobiService() throws Exception {
+        File directory = new File("");
+        String parentPath = "";
+        String filePath = "";
+        try {
+            parentPath = directory.getCanonicalPath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        filePath += parentPath + "/config";
+        File file = new File(filePath);
+        BufferedReader reader = null;
+        String lineStr = "";
+        try {
+            reader = new BufferedReader(new FileReader(file));
+            String tempString;
+            while ((tempString = reader.readLine()) != null) {
+                lineStr += tempString;
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        HUOBI_ACCESS_KEY = JsonParser.getValue(lineStr,"Huobi.ACCESS_KEY");
+        HUOBI_SECRET_KEY = JsonParser.getValue(lineStr,"Huobi.ACCESS_KEY");
+        if (HUOBI_ACCESS_KEY == null || HUOBI_SECRET_KEY == null) {
+            throw new Exception("Access or secret keys cannot be null!");
+        }
+    }
+
     public void printKey() {
         System.out.println("Access Key:" + HUOBI_ACCESS_KEY);
         System.out.println("Secret Key:" + HUOBI_SECRET_KEY);
@@ -275,7 +317,7 @@ public class HuobiService extends Base {
         return post(paraMap, HUOBI_API_URL);
     }
 
-    public String getCurrPrice(String method) throws Exception {
-        return post(method);
+    public String getCurrPrice() throws Exception {
+        return post(HUOBI_BTC_MARKET_URL);
     }
 }

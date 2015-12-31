@@ -18,12 +18,11 @@ public class HuobiMain {
     private static String ORDER_INFO = "order_info";
     private static String SELL = "sell";
     private static String SELL_MARKET = "sell_market";
-    private static String CURR_PRICE = "http://api.huobi.com/staticmarket/ticker_btc_json.js";
 
 
     public static void main(String[] args) {
-        HuobiService service = new HuobiService();
         try {
+            HuobiService service = new HuobiService();
             System.out.println("Huobi.com API Testing...");
             //service.printKey();
 
@@ -42,7 +41,7 @@ public class HuobiMain {
             System.out.println("Fetching Current BIT Coin Prices...");
             for (int i = 0; i < 10; i++) {
                 long ts = System.currentTimeMillis();
-                res = service.getCurrPrice(CURR_PRICE);
+                res = service.getCurrPrice();
                 long te = System.currentTimeMillis();
                 System.out.print("Network Delay for Fetching Prices: " + (te - ts) + "ms   \r");
             }
@@ -50,7 +49,7 @@ public class HuobiMain {
             //while (true) {
                 //System.out.print("System Time Stamp: " + System.currentTimeMillis() + "  ");
                 long timeStart = System.currentTimeMillis();
-                res = service.getCurrPrice(CURR_PRICE);
+                res = service.getCurrPrice();
                 double currPrice = Double.parseDouble(JsonParser.getValue(res, "ticker.last"));
                 //System.out.println(currPrice);
                 res = service.buy(1, Double.toString(currPrice), "0.001", null, null, BUY);
